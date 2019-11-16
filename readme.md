@@ -19,9 +19,9 @@ This software will be user for products management, buying, selling
 
 The owner of this software is **Sankar Bala**.
 <hr/>
- **E-mail**  :  [sankarbala232@gmail.com](sankarbala232@gmail.com)
+ E-mail  :  [sankarbala232@gmail.com](sankarbala232@gmail.com)
  <br/>
- **Phone**   :  [+8801742725606](tel://+8801742725606)
+ Phone   :  [+8801742725606](tel://+8801742725606)
  <br/>
 <hr/>
 
