@@ -35,7 +35,7 @@ class CreateCustomersTable extends Migration
             $table->string('address', 1000)->nullable();
             $table->timestamp('dob')->nullable();
             $table->timestamps();
-           
+            
         });
     }
 
