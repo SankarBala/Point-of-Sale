@@ -1,5 +1,4 @@
 /node_modules
-/public
 /storage/*.key
 /test/node_modules
 /vendor
@@ -11,4 +10,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
-public/*
+
