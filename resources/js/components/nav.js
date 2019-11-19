@@ -92,11 +92,11 @@ export default {
           name: 'Others',
         },
         {
-          name: 'Customer',
-          url: '/customer/',
+          name: 'Customers',
+          url: '/customers/',
           icon: 'icon-people',
         },
-        {
+        { 
           name: 'Settings',
           url: '/settings/',
           icon: 'icon-settings',
