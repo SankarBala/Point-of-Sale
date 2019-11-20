@@ -16,12 +16,12 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->enum('greetings', ['Mr.', 'Mrs.', 'Miss.', 'Sir.', 'Dr.', ''])->default('');
-            $table->string('firstname', 20)->nullable();
-            $table->string('lastname', 20)->nullable();
+            $table->string('title')->nullable();
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
             $table->string('email', 100)->nullable()->unique();
-            $table->string('mobile', 15)->nullable()->unique();
-            $table->string('phone', 15)->nullable();
+            $table->string('mobile')->nullable()->unique();
+            $table->string('phone')->nullable();
             $table->bigInteger('balance')->default(0);
             $table->string('photo', 1000)->nullable();
             $table->string('house')->nullable();
@@ -31,7 +31,7 @@ class CreateCustomersTable extends Migration
             $table->string('area')->nullable();
             $table->string('city')->nullable();
             $table->string('district')->nullable();
-            $table->smallInteger('postalcode')->nullable();
+            $table->string('postalcode')->nullable();
             $table->string('address', 1000)->nullable();
             $table->timestamp('dob')->nullable();
             $table->timestamps();
