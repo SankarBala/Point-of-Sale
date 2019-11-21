@@ -53,8 +53,8 @@ class DefaultLayout extends Component {
           <AppSidebarMinimizer />
         </AppSidebar>
         <main className="main">
-          <AppBreadcrumb appRoutes={routes} router={router}/>
-          <Container fluid>
+          {/* <AppBreadcrumb appRoutes={routes} router={router}/> */}
+          
             <Suspense fallback={loading()}>
             <Switch>
                   {routes.map((route, idx) => {
@@ -71,7 +71,7 @@ class DefaultLayout extends Component {
                   })}
                 </Switch>
             </Suspense>
-          </Container>
+          
         </main>
         <AppAside fixed>
           <Suspense fallback={loading()}>
