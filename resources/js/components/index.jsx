@@ -19,7 +19,7 @@ const Page404 = React.lazy(() => import('./views/Pages/Page404.jsx'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500.jsx'));
 
 class App extends Component {
-
+    
   render() {
     return (
       <BrowserRouter>

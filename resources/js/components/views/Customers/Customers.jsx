@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardFooter, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Card, CardFooter, CardHeader, Col, Row, Table, Button } from 'reactstrap';
+import Pagination from "react-js-pagination";
 
-
-function UserRow(props) {
+function CustomerRow(props) {
   const user = props.user
   const userLink = `/users/${user.id}`
 
   const getBalance = (balance) => {
     return balance < 0 ? 'text-danger' :
       balance === 0 ? 'text-secondary' :
-        'text-success'
+        ''
   }
 
   return (
@@ -35,11 +35,16 @@ class Users extends Component {
     super(props);
     this.state = {
       customersData: [],
+      activePage: 1,
+      totalItemsCount: '',
     }
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
-  componentDidMount() {
-    fetch("/api/customers", {
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({ activePage: pageNumber });
+    fetch(`/api/customers?page=${pageNumber}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -48,7 +53,23 @@ class Users extends Component {
       .then(async res => {
         const data = await res.json();
         this.setState({
-          customersData: data.data
+          customersData: data.data,
+        })
+      })
+  }
+
+  componentDidMount() {
+    fetch('/api/customers', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(async res => {
+        const data = await res.json();
+        this.setState({
+          customersData: data.data,
+          totalItemsCount: data.total
         })
       })
       .catch(function (err) {
@@ -60,14 +81,38 @@ class Users extends Component {
   render() {
 
     const userList = this.state.customersData;
-
     return (
       <div className="animated fadeIn">
         <Row>
           <Col xl={12}>
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Cusomer List
+                <div className=" clearfix">
+                  <div className="float-left">
+                    <i className="fa fa-align-justify"></i> Cusomer List
+
+                  </div>
+                  <div className="float-right">
+                    <nav aria-label="Page navigation">
+                      <Pagination
+                        activePage={this.state.activePage}
+                        itemsCountPerPage={20}
+                        totalItemsCount={this.state.totalItemsCount}
+                        pageRangeDisplayed={10}
+                        onChange={this.handlePageChange}
+                        prevPageText="Previous"
+                        firstPageText="First page"
+                        lastPageText="Last page"
+                        nextPageText="Next"
+                        innerClass="pagination justify-content-end"
+                        itemClass="page-item"
+                        disabledClass="disabled"
+                        linkClass="page-link"
+                      />
+                    </nav>
+                  </div>
+                </div>
+
               </CardHeader>
               <div>
                 <Table responsive hover>
@@ -83,14 +128,12 @@ class Users extends Component {
                   </thead>
                   <tbody>
                     {userList.map((user, index) =>
-                      <UserRow key={index} user={user} />
+                      <CustomerRow key={index} user={user} />
                     )}
                   </tbody>
                 </Table>
               </div>
-              <CardFooter>
-              
-              </CardFooter>
+
             </Card>
           </Col>
         </Row>
