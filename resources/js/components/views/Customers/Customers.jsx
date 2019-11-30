@@ -4,8 +4,8 @@ import { Card, CardFooter, CardHeader, Col, Row, Table, Button } from 'reactstra
 import Pagination from "react-js-pagination";
 
 function CustomerRow(props) {
-  const user = props.user
-  const userLink = `/users/${user.id}`
+  const customer = props.customer
+  const customerLink = `/customer/${customer.id}`
 
   const getBalance = (balance) => {
     return balance < 0 ? 'text-danger' :
@@ -15,22 +15,22 @@ function CustomerRow(props) {
 
   return (
 
-    <tr key={user.id.toString()}>
+    <tr key={customer.id.toString()}>
 
-      <th scope="row"><Link to={userLink}>{user.id}</Link></th>
-      <td scope="row"><Link to={userLink}><img width={40} src={user.photo} /></Link></td>
-      <td scope="row"><Link to={userLink}>{user.title} {user.firstname} {user.lastname}</Link>
+      <th scope="row"><Link to={customerLink}>{customer.id}</Link></th>
+      <td scope="row"><Link to={customerLink}><img width={40} src={customer.photo} /></Link></td>
+      <td scope="row"><Link to={customerLink}>{customer.title} {customer.firstname} {customer.lastname}</Link>
         <br />
-        {user.mobile}
+        {customer.mobile}
       </td>
-      <th scope="row"><span className={getBalance(user.balance)}>{user.balance}</span></th>
-      <th scope="row">{user.created_at}</th>
-      <th scope="row">{user.district}</th>
+      <th scope="row"><span className={getBalance(customer.balance)}>{customer.balance}</span></th>
+      <th scope="row">{customer.created_at}</th>
+      <th scope="row">{customer.district}</th>
     </tr>
   )
 }
 
-class Users extends Component {
+class customers extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,7 +80,7 @@ class Users extends Component {
 
   render() {
 
-    const userList = this.state.customersData;
+    const customerList = this.state.customersData;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -127,8 +127,8 @@ class Users extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {userList.map((user, index) =>
-                      <CustomerRow key={index} user={user} />
+                    {customerList.map((customer, index) =>
+                      <CustomerRow key={index} customer={customer} />
                     )}
                   </tbody>
                 </Table>
@@ -142,4 +142,4 @@ class Users extends Component {
   }
 }
 
-export default Users;
+export default customers;

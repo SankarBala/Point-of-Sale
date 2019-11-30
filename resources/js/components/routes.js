@@ -36,6 +36,7 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 const Customers = React.lazy(() => import('./views/Customers/Customers'));
+const Customer = React.lazy(() => import('./views/Customers/Customer'));
 
  
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -82,6 +83,7 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/customers', exact: true, name: 'Customers', component: Customers },
+  { path: '/customer/:id', exact: true, name: 'Customers', component: Customer },
 ];
 
 export default routes;
