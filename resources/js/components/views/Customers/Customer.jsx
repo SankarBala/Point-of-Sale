@@ -89,17 +89,15 @@ class CustomerDetails extends React.Component {
         <Card>
           <CardHeader>
             <Row>
-              <Col md="4">
+              <Col md="9">
                 <h4>
                   {this.state.customer.title}&nbsp;
                   {this.state.customer.firstname}&nbsp;
                   {this.state.customer.lastname}
                 </h4>
               </Col>
-              <Col md="4">
-                <h4>Customer ID # {this.state.customer.id}</h4>
-              </Col>
-              <Col md="4">
+
+              <Col md="3">
                 <h4
                   style={{
                     color: this.state.customer.balance < 1 ? "red" : "green"
@@ -120,6 +118,7 @@ class CustomerDetails extends React.Component {
                     <img src={this.state.customer.photo} />
                   </CardHeader>
                   <CardBody>
+                    <h5>Customer ID : {this.state.customer.id}</h5>
                     <b>
                       {this.state.customer.title}&nbsp;
                       {this.state.customer.firstname}&nbsp;
@@ -179,7 +178,9 @@ class CustomerDetails extends React.Component {
                 <div className="d-flex justify-content-around">
                   <Router>
                     <Link
-                      className="p-2 bg-warning"
+                      className={`p-2 ${
+                        this.state.customerId < 2 ? "d-none" : "bg-warning"
+                      }`}
                       style={{ width: 100, textAlign: "center" }}
                       to={`/customer/${this.state.customerId - 1}`}
                       onClick={() => this.change(-1)}
@@ -187,7 +188,9 @@ class CustomerDetails extends React.Component {
                       Previous
                     </Link>
                     <Link
-                      className="p-2 bg-warning"
+                       className={`p-2 ${
+                        this.state.customerId == this.state.customer.total ? "d-none" : "bg-primary"
+                      }`}
                       style={{ width: 100, textAlign: "center" }}
                       to={`/customer/${this.state.customerId + 1}`}
                       onClick={() => this.change(1)}

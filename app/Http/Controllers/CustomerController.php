@@ -46,6 +46,8 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        $customer->total = Customer::count();
+
         return $customer;
     }
 
