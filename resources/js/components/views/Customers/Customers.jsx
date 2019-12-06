@@ -1,33 +1,52 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardFooter, CardHeader, Col, Row, Table, Button } from 'reactstrap';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import {
+  Card,
+  CardFooter,
+  CardHeader,
+  Col,
+  Row,
+  Table,
+  Button,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
+} from "reactstrap";
 import Pagination from "react-js-pagination";
 
 function CustomerRow(props) {
-  const customer = props.customer
-  const customerLink = `/customer/${customer.id}`
+  const customer = props.customer;
+  const customerLink = `/customer/${customer.id}`;
 
-  const getBalance = (balance) => {
-    return balance < 0 ? 'text-danger' :
-      balance === 0 ? 'text-secondary' :
-        ''
-  }
+  const getBalance = balance => {
+    return balance < 0 ? "text-danger" : balance === 0 ? "text-secondary" : "";
+  };
 
   return (
-
     <tr key={customer.id.toString()}>
-
-      <th scope="row"><Link to={customerLink}>{customer.id}</Link></th>
-      <td scope="row"><Link to={customerLink}><img width={40} src={customer.photo} /></Link></td>
-      <td scope="row"><Link to={customerLink}>{customer.title} {customer.firstname} {customer.lastname}</Link>
+      <th scope="row">
+        <Link to={customerLink}>{customer.id}</Link>
+      </th>
+      <td scope="row">
+        <Link to={customerLink}>
+          <img width={40} src={customer.photo} />
+        </Link>
+      </td>
+      <td scope="row">
+        <Link to={customerLink}>
+          {customer.title} {customer.firstname} {customer.lastname}
+        </Link>
         <br />
         {customer.mobile}
       </td>
-      <th scope="row"><span className={getBalance(customer.balance)}>{customer.balance}</span></th>
+      <th scope="row">
+        <span className={getBalance(customer.balance)}>{customer.balance}</span>
+      </th>
       <th scope="row">{customer.created_at}</th>
       <th scope="row">{customer.district}</th>
     </tr>
-  )
+  );
 }
 
 class customers extends Component {
@@ -36,30 +55,48 @@ class customers extends Component {
     this.state = {
       customersData: [],
       activePage: 1,
-      totalItemsCount: '',
-    }
+      perPage: 20,
+      totalItemsCount: "",
+      searchText: ""
+    };
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.search = this.search.bind(this);
   }
-
+  search({ target }) {
+    this.setState({ searchText: target.value });
+    fetch(
+      `/api/customers?search=${target.value? target.value : ''}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ).then(async res => {
+      const data = await res.json();
+      this.setState({
+        customersData: data.data.data
+      });
+    });
+    
+  }
   handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
     this.setState({ activePage: pageNumber });
-    fetch(`/api/customers?page=${pageNumber}`, {
+    fetch(`/api/customers?page=${pageNumber}&per_page=${this.state.perPage}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       }
-    })
-      .then(async res => {
-        const data = await res.json();
-        this.setState({
-          customersData: data.data,
-        })
-      })
+    }).then(async res => {
+      const data = await res.json();
+      this.setState({
+        customersData: data.data
+      });
+    });
   }
 
   componentDidMount() {
-    fetch('/api/customers', {
+    fetch(`/api/customers?per_page=${this.state.perPage}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -70,16 +107,15 @@ class customers extends Component {
         this.setState({
           customersData: data.data,
           totalItemsCount: data.total
-        })
+        });
       })
-      .catch(function (err) {
-        console.log('ERROR!!! ' + err.message);
+      .catch(function(err) {
+        console.log("ERROR!!! " + err.message);
       });
-    console.log('ok');
+    console.log("ok");
   }
 
   render() {
-
     const customerList = this.state.customersData;
     return (
       <div className="animated fadeIn">
@@ -89,14 +125,22 @@ class customers extends Component {
               <CardHeader>
                 <div className=" clearfix">
                   <div className="float-left">
-                    <i className="fa fa-align-justify"></i> Cusomer List
-
+                    {/* <i className="fa fa-align-justify"></i> Cusomer List */}
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>Search here</InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        value={this.state.searchText}
+                        onChange={this.search}
+                      />
+                    </InputGroup>
                   </div>
                   <div className="float-right">
                     <nav aria-label="Page navigation">
                       <Pagination
                         activePage={this.state.activePage}
-                        itemsCountPerPage={20}
+                        itemsCountPerPage={this.state.perPage}
                         totalItemsCount={this.state.totalItemsCount}
                         pageRangeDisplayed={10}
                         onChange={this.handlePageChange}
@@ -112,7 +156,6 @@ class customers extends Component {
                     </nav>
                   </div>
                 </div>
-
               </CardHeader>
               <div>
                 <Table responsive hover>
@@ -127,18 +170,17 @@ class customers extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {customerList.map((customer, index) =>
+                    {customerList.map((customer, index) => (
                       <CustomerRow key={index} customer={customer} />
-                    )}
+                    ))}
                   </tbody>
                 </Table>
               </div>
-
             </Card>
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 

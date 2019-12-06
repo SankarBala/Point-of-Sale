@@ -12,11 +12,28 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Customer $customer, Request $request)
     {
-        return Customer::paginate(20);
-    }
+        
+            if($request->search){
+                $data = $request->search;
+                $search_result= Customer::Where('firstname', 'like', "%{$data}%")
+                                    ->orWhere('lastname', 'like', "%{$data}%")
+                                    ->orWhere('mobile', 'like', "%{$data}%")
+                                    ->orWhere('id', 'like', "%{$data}%")
+                                    ->paginate($request->per_page);
 
+                return response()->json([
+                    'data' =>$search_result
+                ]); 
+
+            } else {
+
+             return Customer::paginate($request->per_page);
+
+            }
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

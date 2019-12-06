@@ -21,7 +21,8 @@ import {
   CardHeader,
   CardFooter,
   CardBody,
-  ButtonGroup
+  ButtonGroup,
+  Input
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -107,6 +108,7 @@ class CustomerDetails extends React.Component {
                   <i>{this.state.customer.balance}</i>
                 </h4>
               </Col>
+              
             </Row>
           </CardHeader>
 
@@ -152,7 +154,7 @@ class CustomerDetails extends React.Component {
                         toggle("1");
                       }}
                     >
-                      Basic Info
+                      Order
                     </NavLink>
                   </NavItem>
                   <NavItem>
@@ -164,7 +166,19 @@ class CustomerDetails extends React.Component {
                         toggle("2");
                       }}
                     >
-                      Basic Info
+                      Parchases
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: this.state.activeTab === "3"
+                      })}
+                      onClick={() => {
+                        toggle("3");
+                      }}
+                    >
+                      Transections
                     </NavLink>
                   </NavItem>
                 </Nav>
