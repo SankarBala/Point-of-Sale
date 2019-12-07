@@ -63,25 +63,22 @@ class customers extends Component {
     this.search = this.search.bind(this);
   }
   search({ target }) {
-    this.setState({ searchText: target.value });
-    fetch(
-      `/api/customers?search=${target.value? target.value : ''}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    ).then(async res => {
-      const data = await res.json();
-      this.setState({
-        customersData: data.data.data
-      });
-    });
+
     
+    if (target.value !== "" && target.value !== " ") {
+      this.setState({ searchText: target.value });
+      this.handlePageChange(this.state.activePage, target.value);
+  
+    } else {
+      this.setState({ searchText: '' });
+      this.handlePageChange(this.state.activePage);
+    }
   }
-  handlePageChange(pageNumber) {
+  handlePageChange(pageNumber, searchText) {
     this.setState({ activePage: pageNumber });
+
+    if (!searchText) {
+          
     fetch(`/api/customers?page=${pageNumber}&per_page=${this.state.perPage}`, {
       method: "GET",
       headers: {
@@ -90,9 +87,31 @@ class customers extends Component {
     }).then(async res => {
       const data = await res.json();
       this.setState({
-        customersData: data.data
+        customersData:  data.data,
+        totalItemsCount:  data.total,
       });
     });
+
+
+    }else{
+     
+      
+    fetch(`/api/customers?page=${pageNumber}&per_page=${this.state.perPage}&search=${searchText}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(async res => {
+      const data = await res.json();
+      this.setState({
+        customersData:  data.data.data,
+        totalItemsCount: data.data.total,
+      });
+    });
+
+
+    }
+
   }
 
   componentDidMount() {
@@ -134,6 +153,7 @@ class customers extends Component {
                         value={this.state.searchText}
                         onChange={this.search}
                       />
+                      {this.state.searchText}
                     </InputGroup>
                   </div>
                   <div className="float-right">
