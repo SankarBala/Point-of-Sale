@@ -38,7 +38,13 @@ export default {
           name: 'Demand List',
           url: '/product/demand',
           icon: 'fa fa-eye',
+        },
+        {
+          name: 'Categories',
+          url: '/categories',
+          icon: '',
         }
+     
       ]
       },
       {

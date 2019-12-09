@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-  Redirect
+  Link
 } from "react-router-dom";
 import {
   TabContent,
@@ -13,16 +10,11 @@ import {
   NavItem,
   NavLink,
   Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col,
   CardHeader,
   CardFooter,
   CardBody,
-  ButtonGroup,
-  Input
 } from "reactstrap";
 import classnames from "classnames";
 

@@ -60,6 +60,7 @@ class customers extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.search = this.search.bind(this);
   }
+
   search({ target }) {
     if (target.value !== "" && target.value !== " ") {
       this.setState({ searchText: target.value });
@@ -170,23 +171,29 @@ class customers extends Component {
                 </div>
               </CardHeader>
               <div>
-                <Table responsive hover>
-                  <thead>
-                    <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Photo</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Balance</th>
-                      <th scope="col">Customer from</th>
-                      <th scope="col">District</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customerList.map((customer, index) => (
-                      <CustomerRow key={index} customer={customer} />
-                    ))}
-                  </tbody>
-                </Table>
+                {customerList.length < 1 ? (
+                  <center>
+                    <h3>No data found</h3>
+                  </center>
+                ) : (
+                  <Table responsive hover>
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Photo</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Balance</th>
+                        <th scope="col">Customer from</th>
+                        <th scope="col">District</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {customerList.map((customer, index) => (
+                        <CustomerRow key={index} customer={customer} />
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
               </div>
             </Card>
           </Col>
