@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
+import React, { Suspense } from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import Img from "react-image";
+
 import {
   TabContent,
   TabPane,
@@ -14,9 +13,10 @@ import {
   Col,
   CardHeader,
   CardFooter,
-  CardBody,
+  CardBody
 } from "reactstrap";
 import classnames from "classnames";
+const Loading = () =><div className="spinner-border m-5"><i class="fas fa-spinner"></i></div>;
 
 class CustomerDetails extends React.Component {
   constructor(props) {
@@ -100,7 +100,6 @@ class CustomerDetails extends React.Component {
                   <i>{this.state.customer.balance}</i>
                 </h4>
               </Col>
-              
             </Row>
           </CardHeader>
 
@@ -109,7 +108,14 @@ class CustomerDetails extends React.Component {
               <Col md="3">
                 <Card>
                   <CardHeader>
-                    <img src={this.state.customer.photo} />
+                    <div style={{width:200, height:200}}>
+                      <Img
+                        src={[this.state.customer.photo]}
+                        loader={<Loading />}
+                        unloader={<div>notfound</div>}
+                        decode={false}
+                      />
+                    </div>
                   </CardHeader>
                   <CardBody>
                     <h5>Customer ID : {this.state.customer.id}</h5>
@@ -194,8 +200,10 @@ class CustomerDetails extends React.Component {
                       Previous
                     </Link>
                     <Link
-                       className={`p-2 ${
-                        this.state.customerId == this.state.customer.total ? "d-none" : "bg-primary"
+                      className={`p-2 ${
+                        this.state.customerId == this.state.customer.total
+                          ? "d-none"
+                          : "bg-primary"
                       }`}
                       style={{ width: 100, textAlign: "center" }}
                       to={`/customer/${this.state.customerId + 1}`}
