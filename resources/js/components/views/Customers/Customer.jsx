@@ -105,7 +105,7 @@ class CustomerDetails extends React.Component {
 
           <CardBody>
             <Row>
-              <Col md="3">
+              <Col md="4">
                 <Card>
                   <CardHeader>
                     <div style={{width:200, height:200}}>
@@ -141,7 +141,7 @@ class CustomerDetails extends React.Component {
                   </CardBody>
                 </Card>
               </Col>
-              <Col md="9">
+              <Col md="8">
                 <Nav tabs>
                   <NavItem>
                     <NavLink
